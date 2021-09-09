@@ -25,7 +25,10 @@
 
 ![](doc/images/04.png)
 
+## 参考资料
+
 参考文档：http://www.gxitsky.com/article/1605497337620854
+
 参考源码：https://github.com/gxing19/Spring-Boot-Example/tree/master/spring-boot-datasource
 
 
