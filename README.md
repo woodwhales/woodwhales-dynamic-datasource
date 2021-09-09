@@ -1,6 +1,6 @@
 # woodwhales-dynamic-datasource
 
->   springboot 动态数据源
+>   spring-boot 动态数据源
 
 ## 说明
 
