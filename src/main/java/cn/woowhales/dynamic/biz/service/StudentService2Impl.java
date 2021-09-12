@@ -14,13 +14,13 @@ import java.util.List;
  * @Description
  */
 @Service
+@DataSourceSelector(DataSourceEnum.SLAVE)
 public class StudentService2Impl implements StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
 
     @Override
-    @DataSourceSelector(DataSourceEnum.SLAVE)
     public List<Student> selectAll() {
         return studentMapper.selectAll();
     }

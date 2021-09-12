@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * @author woodwhales
  */
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface DataSourceSelector {
     DataSourceEnum value();
 }

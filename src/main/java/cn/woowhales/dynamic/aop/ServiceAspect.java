@@ -12,6 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -29,11 +30,23 @@ public class ServiceAspect {
     public void pointcut() {
     }
 
+    @Around("@annotation(dataSourceSelector)")
+    public Object around(ProceedingJoinPoint joinPoint, DataSourceSelector dataSourceSelector) throws Throwable {
+        return execute(joinPoint, dataSourceSelector);
+    }
+
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        Method method = methodSignature.getMethod();
-        DataSourceSelector dataSourceSelector = method.getAnnotation(DataSourceSelector.class);
+        Object target = joinPoint.getTarget();
+        DataSourceSelector dataSourceSelector = target.getClass().getAnnotation(DataSourceSelector.class);
+        return execute(joinPoint, dataSourceSelector);
+    }
+
+    private Object execute(ProceedingJoinPoint joinPoint, DataSourceSelector dataSourceSelector) throws Throwable {
+        if(Objects.isNull(dataSourceSelector)) {
+            return joinPoint.proceed();
+        }
+
         DataSourceEnum dataSourceEnum = dataSourceSelector.value();
         if(Objects.isNull(dataSourceEnum)) {
             throw new RuntimeException("未指定数据源");
